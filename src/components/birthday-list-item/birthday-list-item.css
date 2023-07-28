@@ -30,35 +30,37 @@
     cursor: pointer;
 }
 
-.list-group-item .btn-cookie {
-    color: #e09f3e;
+.list-group-item .btn-message {
+    color: #7B68EE;
 }
+
+
 
 .list-group-item .btn-trash {
-    color: #e5383b;
+    color: #000000;
 }
 
-.list-group-item .fa-star {
+.list-group-item .fa-gift {
     width: 35px;
     height: 35px;
     text-align: center;
     line-height: 35px;
     font-size: 16px;
-    color: #FFD700;
+    color: #DC143C;
     transition: 0.3s all;
     transform: translateX(30px);
     opacity: 0;
 }
 
-.list-group-item.like .fa-star {
+.list-group-item.like .fa-gift {
     opacity: 1;
     transform: translateX(0px);
 }
 
 .list-group-item.increase .list-group-item-label, .list-group-item.increase .list-group-item-input {
-    color: #e09f3e;
+    color: #DC143C;
 }
   
-.list-group-item.increase .btn-star {
+.list-group-item.increase .btn-gift {
     color: #aeaeae;
 }

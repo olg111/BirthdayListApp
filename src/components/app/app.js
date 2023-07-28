@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import AppInfo from '../app-info/app-info';
 import SearchPanel from '../search-panel/search-panel';
 import AppFilter from '../app-filter/app-filter';
@@ -8,122 +8,112 @@ import BirthdayAddForm from '../birthday-add-form/birthday-add-form';
 
 import './app.css';
 
-class App extends Component{
+function    App(props) {
 
-    constructor(props){
-        super(props);  
-        this.state ={
-            data: [
-                {name: "Mom", salary: 800, increase: false, rise: true, id: 1},
-                {name: "Dad", salary: 1000, increase: true, rise: false, id: 2},
-                {name: "My cat", salary: 2000, increase: false, rise: false, id: 3},
-                {name: "Kate", salary: 2000, increase: false, rise: false, id: 3}
-            ],
+    const [myData, setMyData] = useState([
+        {name: "Mom", birthday: 800, messege: false, gift1: true, id: 1},
+        {name: "Dad", birthday: 1000, messege: true, gift1: false, id: 2},
+        {name: "My cat", birthday: 2000, messege: false, gift1: false, id: 3},
+        {name: "Kate", birthday: 2000, messege: false, gift1: false, id: 4}
+    ])
 
-            term: ''
-        } 
-        this.maxId = 5;
+    const [term, setTerm] = useState('')
+    const [filter, setFilter] = useState('')
+    const [maxId, setMaxId] = useState(5)
+   
+
+
+    const deleteItem = (id) => {
+        setMyData(myData.filter(item => item.id !==id))
+
     }
 
-    deleteItem =(id) => {
-        this.setState( ({data}) => {
-           
-           
-            return{
-                data: data.filter(item => item.id !==id)
-            }
+    const addItem = (name, birthday) => {
+        console.log("123")
+        const newItem = {
+            name, 
+            birthday,
+            messege: false,
+            gift: false,
+            id: maxId +1
+        }
+        setMyData([...myData, newItem])
+        setMaxId(newItem.id)
+       
+    }
 
+    const onToggleProp = (id, prop) => {
+        console.log("id, prop, myData проверка")
+        console.log({id, prop, myData})
+    
+        setMyData(
+
+            myData.map(item => item.id === id
+                ? {...item, [prop]: !item[prop]}
+                : item
+                )
+
+                
+            )
+            console.log("[prop]")
+            console.log([prop])
+            console.log(myData.messege , myData.gift1)
+    }
+
+    const searchEmp = (items, term) => {
+        if(term.length === 0){
+            return items;
+        }
+        return items.filter(item => {
+            return item.name.indexOf(term) >-1;
         })
     }
 
+    const onUpdateSearch = (term) =>{
+        setTerm(term)
+    }
+
+    const filterPost = (items, filter) => {
+        switch (filter) {
+            case 'gift1':                                           ///
+                return items.filter(item => item.gift1);
+            case 'congratulate':
+                return items.filter(item => item.messege);  
+            default:
+                return items
+        }
+    }
+
+    const onFilterSelect = (filter) => {
+        setFilter(filter);
+    }
+
+
+
+    const birthdayPersons = myData.length;
+    const gifted = myData.filter(item => item.gift1).length; // item.gifted
+    const congratulated = myData.filter(item =>item.messege).length; // дописала
+    const visibleData = filterPost(searchEmp(myData, term), filter);
     
 
-// Да, пока могут добавляться пустые пользователи. Мы это еще исправим
-addItem = (name, salary) => {
-    const newItem = {
-        name, 
-        salary,
-        increase: false,
-        rise: false,
-        id: this.maxId++
-    }
-    this.setState(({data}) => {
-        const newArr = [...data, newItem];
-        return {
-            data: newArr
-        }
-    });
-}
-
-onToggleProp = (id, prop) => {
-    this.setState(({data}) => ({
-        data: data.map(item => {
-            if (item.id === id) {
-                return {...item, [prop]: !item[prop]}
-            }
-            return item;
-        })
-    }))
-}
-
-searchEmp = (items, term) => {
-    if(term.length === 0){
-        return items;
-    }
-    return items.filter(item => {
-        return item.name.indexOf(term) >-1;
-
-    })
-
-}
-
-onUpdateSearch = (term) =>{
-    //State Updates are Merged
-    this.setState ({term});
-}
-
-filterPost = (items, filter) => {
-    switch (filter) {
-        case 'rise':
-            return items.filter(item => item.rise);
-        case 'moreThen1000':
-            return items.filter(item => item.salary > 1000);
-        default:
-            return items
-    }
-}
-
-onFilterSelect = (filter) => {
-    this.setState({filter});
-}
-
-
-
-render() {
-
-    const {data, term, filter} = this.state;
-    console.log(123, {filter, term})
-    const employees = this.state.data.length;
-    const increased = this.state.data.filter(item => item.increase).length;
-    const visibleData = this.filterPost(this.searchEmp(data, term), filter);
     return (
         <div className="app">
-            <AppInfo employees={employees} increased={increased}/>
+            <AppInfo birthdayPersons={birthdayPersons} gifted={gifted} congratulated={congratulated}/>
 
             <div className="search-panel">
-                <SearchPanel onUpdateSearch={this.onUpdateSearch}/>
-                <AppFilter filter = {filter} onFilterSelect ={this.onFilterSelect}/>
+                <SearchPanel onUpdateSearchApp={onUpdateSearch}/>
+                <AppFilter filter = {filter} onFilterSelect ={onFilterSelect}/>
             </div>
             
             <BirthdayList 
-                data={visibleData}
-                onDelete={this.deleteItem}
-                onToggleProp={this.onToggleProp}/>
+                myData={visibleData}
+                onDelete={deleteItem}
+                onToggleProp={onToggleProp}/>
 
-            <BirthdayAddForm onAdd={this.addItem}/>
+            <BirthdayAddForm onAdd={addItem}/>
         </div>
     );
-}
+
 }
 
 export default App;

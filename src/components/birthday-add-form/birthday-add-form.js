@@ -1,63 +1,62 @@
-import { Component } from 'react';
+import { useState } from 'react';
 
 import './birthday-add-form.css';
 
 
-class BirthdayAddForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: '',
-            salary: ''
-        }
-    }
+function BirthdayAddForm (props) {
 
-    onValueChange = (e) => {
-        this.setState({
-            [e.target.name] : e.target.value
-        })
+    const [name, setName] = useState('')
+    const [birthday, setBirthday] = useState('')
+
+
+    const onValueChange = (e, setState) => {
+        setState( 
+            e.target.value
+        )       
     }
 
 
-    onSubmit = (e) => {
+    const onSubmit = (e) => {
         e.preventDefault();
      
-        if (this.state.name.length < 3 || !this.state.salary) return;
-        this.props.onAdd(this.state.name, this.state.salary);
-        this.setState({
-            name: '',
-            salary: ''
-        })
+        if (name.length < 3 || !birthday) return;
+        props.onAdd(name, birthday);
+       
+        setBirthday('')
+        setName('')
     }
 
-    render() {
-        const {name, salary} = this.state;
+
 
         return (
             <div className="app-add-form">
                 <h3>Add new birthday</h3>
                 <form
                     className="add-form d-flex"
-                    onSubmit = {this.onSubmit}>
+                    onSubmit = {onSubmit}>
                     <input type="text"
                         className="form-control new-post-label"
                         placeholder="Person"
                         name="name"
                         value={name} 
-                        onChange={this.onValueChange}/>
-                    <input type="number"
+                        onChange={(e) => {
+                            onValueChange(e, setName)
+                        }}/>
+                    <input type="text"
                         className="form-control new-post-label"
                         placeholder="Birthday date"
-                        name="salary"
-                        value={salary} 
-                        onChange={this.onValueChange}/>
+                        name="birthday"
+                        value={birthday} 
+                        onChange={(e) => {
+                            onValueChange(e, setBirthday)
+                        }}/>
     
                     <button type="submit"
                             className="btn btn-outline-light">Add</button>
                 </form>
             </div>
         )
-    }
+    
 }
 
 export default BirthdayAddForm;

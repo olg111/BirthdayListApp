@@ -1,12 +1,12 @@
 import BirthdayListItem from '../birthday-list-item/birthday-list-item';
 import './birthday-list.css';
 
-const BirthdayList = ({data, onDelete, onToggleProp}) => {
+const BirthdayList = ({myData, onDelete, onToggleProp}) => {  
 
-    const elements = data.map(item =>{
+    const elements = myData.map(item =>{
         const {id, ...itemProps} = item;
         return(
-           // <EmployeesListItem name = {item.name} salary={item.salary} />
+          
            <BirthdayListItem key={id} 
            {...itemProps}
            onDelete ={() => onDelete(id)}

@@ -1,35 +1,34 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import './search-panel.css';
 
-class SearchPanel extends Component {
+function SearchPanel (props) {
     // eslint-disable-next-line no-useless-constructor
-    constructor(props) {
-        super(props);
-        this.state = {
-            term: '',
-            // не нужно
-            filter: ''
-            
+
+    const [term, setTerm] = useState('')
+
+
+    // onUpdateSearch = (e) =>{
+    //     const term = e.target.value;
+    //     this.setState({term});
+    //     this.props.onUpdateSearch(term);
+    // }
+
+    const onUpdateSearch = (e) =>{
+        setTerm(e.target.value)
+        props.onUpdateSearchApp(e.target.value);
+    }
+
     
-        }
-    }
-
-    onUpdateSearch = (e) =>{
-        const term = e.target.value;
-        this.setState({term});
-        this.props.onUpdateSearch(term);
-    }
-
-    render(){
-        return (
-            <input 
+    return (
+        <input 
             type = "text"
             className = "form-control search-input"
             placeholder = "Search..." 
-            value = {this.state.term}
-            onChange={this.onUpdateSearch}/>
-        )
-    }
+            value = {term}
+            onChange={onUpdateSearch}
+        />
+    )
+    
 
 
 }

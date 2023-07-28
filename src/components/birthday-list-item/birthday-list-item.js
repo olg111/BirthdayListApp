@@ -4,16 +4,16 @@ import './birthday-list-item.css';
 const BirthdayListItem = (props) => {
   
 
-        const{name, salary, onDelete, onToggleProp, increase, rise  } = props;
+        const{name, birthday, onDelete, onToggleProp, message, gift1  } = props;
         
         
         let classNames = "list-group-item d-flex justify-content-between";
-            if(increase){
-                classNames += " increase"
+            if(message){
+                classNames += " increase"  // ????
             }
         
-            if(rise){
-                classNames += " like"
+            if(gift1){
+                classNames += " like"   //????
             }
 
 
@@ -21,13 +21,16 @@ const BirthdayListItem = (props) => {
         <li className={classNames}>
             <span className="list-group-item-label" 
                 onClick={onToggleProp} 
-                data-toggle="rise"> {name} </span>
-            <input type="text" className="list-group-item-input" defaultValue={salary}/>
+                data-toggle="gift1">
+                {name} 
+            </span> 
+            <input type="text" className="list-group-item-input" defaultValue={birthday}/>
             <div className='d-flex justify-content-center align-items-center'>
                 <button type="button"
-                    className="btn-cookie btn-sm "
-                    onClick={onToggleProp} data-toggle="increase">
-                    <i className="fas fa-cookie"></i>
+                    className="btn-message btn-sm "
+                    onClick={onToggleProp}
+                    data-toggle="message">
+                    <i className="fas fa-message"></i>
                 </button>
 
                 <button type="button"
@@ -35,7 +38,7 @@ const BirthdayListItem = (props) => {
                         onClick={onDelete}>
                     <i className="fas fa-trash"></i>
                 </button>
-                <i className="fas fa-star"></i>
+                <i className="fa fa-gift"></i>   
             </div>
         </li>
     )
