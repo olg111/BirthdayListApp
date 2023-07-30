@@ -11,8 +11,9 @@
     line-height: 35px;
     font-size: 20px;
     cursor: pointer;
-    min-width: 550px;
+    min-width: 350px;
 }
+
 
 .list-group-item input {
     line-height: 35px;
@@ -57,10 +58,11 @@
     transform: translateX(0px);
 }
 
-.list-group-item.increase .list-group-item-label, .list-group-item.increase .list-group-item-input {
+.list-group-item.congratulate .list-group-item-label, .list-group-item.congratulate .list-group-item-input {
     color: #DC143C;
 }
   
-.list-group-item.increase .btn-gift {
+.list-group-item.congratulate .btn-gift {
     color: #aeaeae;
 }
+

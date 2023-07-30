@@ -1,24 +1,27 @@
-import BirthdayListItem from '../birthday-list-item/birthday-list-item';
-import './birthday-list.css';
+import { useMemo } from "react";
+import BirthdayListItem from "../birthday-list-item/birthday-list-item";
+import "./birthday-list.css";
 
-const BirthdayList = ({myData, onDelete, onToggleProp}) => {  
+const BirthdayList = ({ myData, onDelete, onToggleProp }) => {  
 
-    const elements = myData.map(item =>{
-        const {id, ...itemProps} = item;
-        return(
-          
-           <BirthdayListItem key={id} 
-           {...itemProps}
-           onDelete ={() => onDelete(id)}
-           onToggleProp={(e) => onToggleProp(id, e.currentTarget.getAttribute('data-toggle'))} />
-        )
-    })
+  const elements = useMemo( () => {
+    return myData.map((item) => {  //useMemo
+        const { id, ...itemProps } = item;
+        return (
+          <BirthdayListItem
+            key={id}
+            {...itemProps}
+            onDelete={() => onDelete(id)}
+            onToggleProp={(e) =>
+              onToggleProp(id, e.currentTarget.getAttribute("data-toggle"))
+            }
+          />
+        );
+      });
 
-    return(
-        <ul className="app-list list-group">
-            {elements}
-        </ul>
-    )
-}
+  }, [myData, onDelete, onToggleProp])
+
+  return <ul className="app-list list-group">{elements}</ul>;
+};
 
 export default BirthdayList;
