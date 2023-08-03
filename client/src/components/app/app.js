@@ -1,6 +1,7 @@
 import { useCallback, useState, useMemo } from "react";
 import Select from "react-select";
 import AppInfo from "../app-info/app-info";
+import {addItemRequest, deleteItemRequest, onTogglePropRequest} from "../../lib/requests";
 import SearchPanel from "../search-panel/search-panel";
 import AppFilter from "../app-filter/app-filter";
 import BirthdayList from "../birthday-list/birthday-list";
@@ -8,7 +9,7 @@ import BirthdayAddForm from "../birthday-add-form/birthday-add-form";
 import "./app.css";
 
 function App(props) {
-  console.log("77777", props);
+  console.log(props);
 
   const [myData, setMyData] = useState(props.data);
 
@@ -21,14 +22,10 @@ function App(props) {
     setSelectorMonth(firstEl);
   }, []);
 
-  // const deleteItem = (id) => {
-  //     setMyData(myData.filter(item => item.id !==id))
-
-  // }
 
   const deleteItem = useCallback(
     (id) => {
-      fetch(`http://localhost:4000/birthdayPerson/${id}`, { method: "DELETE" })
+      deleteItemRequest(id)
         .then(() => setMyData(myData.filter((item) => item.id !== id)))
         .catch(function (error) {
           console.log("error", error);
@@ -37,40 +34,33 @@ function App(props) {
     [myData]
   );
 
-  const addItem = (name, date, month) => {
+  const addItem = useCallback( (name, date, month) => {
     const newItem = {
       name,
       date,
       month,
       message: false,
-      gift: false,
+      gift1: false,
       id: myData.length + 1,
     };
 
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newItem),
-    };
-
-    fetch("http://localhost:4000/birthdayPerson", requestOptions)
-      .then((response) => response.json())
+    addItemRequest(newItem)
       .then((data) => {
         setMyData([...myData, data]);
         setFilter("all");
       });
-  };
+  }, [myData]);
 
-  const onToggleProp = useCallback(
-    (id, prop) => {
-      setMyData(
-        myData.map((item) =>
-          item.id === id ? { ...item, [prop]: !item[prop] } : item
-        )
-      );
-    },
-    [myData]
-  );
+  const onToggleProp = (id, prop ) => {
+    const affectedItem = myData.find((item) => item.id === id);
+    const updatedItem = { ...affectedItem, [prop]: !affectedItem[prop] };
+
+
+    onTogglePropRequest(id, updatedItem)
+      .then((res) => {
+        setMyData(myData.map((item) => (item.id === id ? res : item)));
+      });
+  };
 
   const searchEmp = useCallback((items, term) => {
     if (term.length === 0) {
