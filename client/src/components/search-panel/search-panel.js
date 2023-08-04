@@ -17,6 +17,7 @@ function SearchPanel (props) {
     return (
         <input 
             type = "text"
+            data-testid="Search-Input"
             className = "form-control search-input"
             placeholder = "Search..." 
             value = {term}

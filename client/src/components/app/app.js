@@ -1,5 +1,4 @@
 import { useCallback, useState, useMemo } from "react";
-import Select from "react-select";
 import AppInfo from "../app-info/app-info";
 import {addItemRequest, deleteItemRequest, onTogglePropRequest} from "../../lib/requests";
 import SearchPanel from "../search-panel/search-panel";

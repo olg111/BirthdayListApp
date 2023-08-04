@@ -8,7 +8,6 @@ function BirthdayAddForm(props) {
   const [date, setDate] = useState("");
   const [month, setMonth] = useState("");
 
-
   const onValueChange = useCallback( (e, setState) => {
 
     setState(e.target.value);
@@ -49,6 +48,7 @@ function BirthdayAddForm(props) {
       <form className="add-form d-flex" onSubmit={onSubmit}>
         <input
           type="text"
+          data-testid="Person-Input"
           className="form-control new-post-label"
           placeholder="Person"
           name="name"
@@ -61,6 +61,7 @@ function BirthdayAddForm(props) {
           type="number"
           className="form-control new-post-label"
           placeholder="Birthday date"
+          data-testid="Birthday-Input"
           name="date"
           value={date}
           onChange={(e) => {
@@ -75,7 +76,7 @@ function BirthdayAddForm(props) {
           onChange={onMonthChange}
         />
 
-        <button type="submit" className="btn btn-outline-light">
+        <button data-testid="Add-Btn" type="submit" className="btn btn-outline-light">
           Add
         </button>
       </form>
