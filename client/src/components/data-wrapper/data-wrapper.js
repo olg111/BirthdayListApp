@@ -7,13 +7,11 @@ function DataWrapper(props) {
   const [bData, setBData] = useState([]);
 
   const getBirthdayPerson = () => {
-    //https://monsterlessons.com/project/lessons/poluchenie-dannyh-ot-servera-s-pomoshyu-fetch
     fetch("http://localhost:4000/birthdayPerson")
       .then(function (response) {
         return response.json();
       })
       .then(function (data) {
-        console.log("data", data);
         setBData(data);
       })
       .catch(function (error) {

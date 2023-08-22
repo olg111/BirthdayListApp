@@ -42,7 +42,7 @@ function App(props) {
         month,
         message: false,
         gift1: false,
-        id: myData.length + 1,
+        id: myData.reduce((maxValue, current) => maxValue < current.id ? current.id : maxValue, 0) + 1
       };
 
       addItemRequest(newItem).then((data) => {
